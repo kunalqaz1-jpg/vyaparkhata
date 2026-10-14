@@ -1,0 +1,7 @@
+{
+  "name": "VyaparKhata - Digital Business Khata & Invoicing PWA",
+  "description": "Professional business bookkeeping, customer ledger (Udhar / Jama), GST invoicing, stock inventory, and payment records.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

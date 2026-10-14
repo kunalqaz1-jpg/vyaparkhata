@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Allow authenticated or client access to user profile records
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Allow access to businesses and all nested subcollections (customers, suppliers, transactions, invoices, products, expenses, reminders)
+    match /businesses/{businessId} {
+      allow read, write: if true;
+
+      match /{allChildren=**} {
+        allow read, write: if true;
+      }
+    }
+  }
+}

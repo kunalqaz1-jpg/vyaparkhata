@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <rect width="200" height="200" fill="#ffffff" rx="24"/>
+  <g transform="translate(6, 4)">
+    <!-- Letter A legs -->
+    <polygon points="66,14 80,14 36,138 16,138" fill="#18181b"/>
+    <polygon points="66,14 80,14 128,138 108,138" fill="#18181b"/>
+    
+    <!-- Dynamic Green Orbit / Ring around A -->
+    <path d="M 4 94 C 12 110, 80 116, 134 94 C 158 84, 156 64, 132 60 C 98 55, 34 68, 28 84"
+          fill="none" stroke="#00a651" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- 'NU' -->
+    <text x="126" y="138" fill="#18181b" 
+          font-family="Impact, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+          font-weight="900" font-style="italic" font-size="52" letter-spacing="1">NU</text>
+    
+    <!-- 'TOOLS' -->
+    <text x="6" y="186" fill="#18181b" 
+          font-family="Impact, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" 
+          font-weight="900" font-style="italic" font-size="46" letter-spacing="4">TOOLS</text>
+  </g>
+</svg>

@@ -1,0 +1,278 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "activeBusinessId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Business": {
+      "title": "Business",
+      "description": "Merchant enterprise/store profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 64 },
+        "businessType": { "type": "string", "maxLength": 64 },
+        "address": { "type": "string", "maxLength": 256 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "gstin": { "type": "string", "maxLength": 32 },
+        "currency": { "type": "string", "maxLength": 8 },
+        "timezone": { "type": "string", "maxLength": 64 },
+        "ownerId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "ownerId"]
+    },
+    "BusinessMember": {
+      "title": "BusinessMember",
+      "description": "Member association between user and business with RBAC",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userEmail": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["owner", "admin", "manager", "accountant", "sales", "viewer"] },
+        "status": { "type": "string", "enum": ["active", "invited", "suspended"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "userId", "role"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer record with credit/debit balances",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "email": { "type": "string", "maxLength": 256 },
+        "address": { "type": "string", "maxLength": 256 },
+        "gstin": { "type": "string", "maxLength": 32 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "openingBalance": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "archived"] },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "name", "phone", "currentBalance"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Supplier / Vendor account with payable balance",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "email": { "type": "string", "maxLength": 256 },
+        "address": { "type": "string", "maxLength": 256 },
+        "gstin": { "type": "string", "maxLength": 32 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "openingBalance": { "type": "number" },
+        "currentBalance": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "archived"] },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "name", "phone", "currentBalance"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Immutable/auditable ledger entry for customer or supplier",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "partyType": { "type": "string", "enum": ["customer", "supplier"] },
+        "partyId": { "type": "string", "maxLength": 128 },
+        "partyName": { "type": "string", "maxLength": 128 },
+        "partyPhone": { "type": "string", "maxLength": 32 },
+        "type": { "type": "string", "enum": ["you_gave", "you_got", "payment_in", "payment_out", "opening_balance"] },
+        "amount": { "type": "number" },
+        "balanceAfter": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["cash", "upi", "bank_transfer", "cheque", "card", "other"] },
+        "paymentRef": { "type": "string", "maxLength": 128 },
+        "description": { "type": "string", "maxLength": 500 },
+        "billNumber": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "enum": ["completed", "cancelled"] },
+        "date": { "type": "string" },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "partyType", "partyId", "type", "amount", "balanceAfter"]
+    },
+    "Invoice": {
+      "title": "Invoice",
+      "description": "GST compliant sales billing document",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "invoiceNumber": { "type": "string", "maxLength": 64 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 128 },
+        "customerPhone": { "type": "string", "maxLength": 32 },
+        "customerAddress": { "type": "string", "maxLength": 256 },
+        "customerGstin": { "type": "string", "maxLength": 32 },
+        "subtotal": { "type": "number" },
+        "discountTotal": { "type": "number" },
+        "taxTotal": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "paidAmount": { "type": "number" },
+        "balanceDue": { "type": "number" },
+        "status": { "type": "string", "enum": ["draft", "unpaid", "partially_paid", "paid", "cancelled"] },
+        "issueDate": { "type": "string" },
+        "dueDate": { "type": "string" },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "invoiceNumber", "totalAmount", "status"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Inventory product item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "sku": { "type": "string", "maxLength": 64 },
+        "category": { "type": "string", "maxLength": 64 },
+        "unit": { "type": "string", "maxLength": 32 },
+        "purchasePrice": { "type": "number" },
+        "sellingPrice": { "type": "number" },
+        "currentStock": { "type": "number" },
+        "minStockAlert": { "type": "number" },
+        "taxRate": { "type": "number" },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "name", "sellingPrice", "currentStock"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "description": "Operating expenditure entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 64 },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["cash", "upi", "bank_transfer", "card", "cheque", "other"] },
+        "vendorName": { "type": "string", "maxLength": 128 },
+        "notes": { "type": "string", "maxLength": 500 },
+        "date": { "type": "string" },
+        "billNumber": { "type": "string", "maxLength": 64 },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "category", "amount", "date"]
+    },
+    "Reminder": {
+      "title": "Reminder",
+      "description": "Payment collection due reminder",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "customerId": { "type": "string", "maxLength": 128 },
+        "customerName": { "type": "string", "maxLength": 128 },
+        "customerPhone": { "type": "string", "maxLength": 32 },
+        "amount": { "type": "number" },
+        "dueDate": { "type": "string" },
+        "notes": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["pending", "completed", "snoozed"] },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "businessId", "customerName", "amount", "dueDate", "status"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "System event and security audit trail",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "businessId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "userName": { "type": "string", "maxLength": 128 },
+        "action": { "type": "string", "maxLength": 128 },
+        "details": { "type": "string", "maxLength": 500 },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "businessId", "userId", "action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/businesses/{businessId}": {
+      "schema": "Business",
+      "description": "Business organizations"
+    },
+    "/businesses/{businessId}/members/{memberId}": {
+      "schema": "BusinessMember",
+      "description": "Staff and access memberships"
+    },
+    "/businesses/{businessId}/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Customers of the business"
+    },
+    "/businesses/{businessId}/suppliers/{supplierId}": {
+      "schema": "Supplier",
+      "description": "Suppliers of the business"
+    },
+    "/businesses/{businessId}/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Auditable ledger transactions"
+    },
+    "/businesses/{businessId}/invoices/{invoiceId}": {
+      "schema": "Invoice",
+      "description": "GST and sales invoices"
+    },
+    "/businesses/{businessId}/products/{productId}": {
+      "schema": "Product",
+      "description": "Product catalog and stock counts"
+    },
+    "/businesses/{businessId}/expenses/{expenseId}": {
+      "schema": "Expense",
+      "description": "Operating expenses records"
+    },
+    "/businesses/{businessId}/reminders/{reminderId}": {
+      "schema": "Reminder",
+      "description": "Payment collection reminders"
+    },
+    "/businesses/{businessId}/auditLogs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Audit trail entries"
+    }
+  }
+}
